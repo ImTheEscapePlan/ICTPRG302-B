@@ -51,9 +51,77 @@ if __name__ == "__main__":
                 shutil.copy2(file_path, target_file_path)
                 print(f"Successfully backed up: {relative_path} -> {new_filename}")
     def job2():
-        print("backup beginning")
+        # Convert the strings into path objects
+        source = Path(backupcfg.Job2InDir)
+        dest = Path(backupcfg.Job2OutDir)
+
+        if not source.exists():
+            print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
+            return
+
+        # generate timestamp for this run
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        print(f"backup from {source} to {dest} beginning")
+
+        for file_path in source.rglob('*'):
+            if file_path.is_file():
+                # get relative path to maintain folder structure
+                relative_path = file_path.relative_to(source)
+
+                # seperate filename and extension
+                file_stem = file_path.stem
+                file_suffix = file_path.suffix
+
+                # construct new filename with timestamp
+                new_filename = f"{file_stem}_{timestamp}{file_suffix}"
+
+                # determine the final destination path
+                target_subdir = dest / relative_path.parent
+                target_file_path = target_subdir / new_filename
+
+                # create destination subfolders if they don't exist yet
+                target_subdir.mkdir(parents=True, exist_ok=True)
+
+                # copy files
+                shutil.copy2(file_path, target_file_path)
+                print(f"Successfully backed up: {relative_path} -> {new_filename}")
     def job3():
-        print("backup beginning")
+        # Convert the strings into path objects
+        source = Path(backupcfg.Job3InDir)
+        dest = Path(backupcfg.Job3OutDir)
+
+        if not source.exists():
+            print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
+            return
+
+        # generate timestamp for this run
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        print(f"backup from {source} to {dest} beginning")
+
+        for file_path in source.rglob('*'):
+            if file_path.is_file():
+                # get relative path to maintain folder structure
+                relative_path = file_path.relative_to(source)
+
+                # seperate filename and extension
+                file_stem = file_path.stem
+                file_suffix = file_path.suffix
+
+                # construct new filename with timestamp
+                new_filename = f"{file_stem}_{timestamp}{file_suffix}"
+
+                # determine the final destination path
+                target_subdir = dest / relative_path.parent
+                target_file_path = target_subdir / new_filename
+
+                # create destination subfolders if they don't exist yet
+                target_subdir.mkdir(parents=True, exist_ok=True)
+
+                # copy files
+                shutil.copy2(file_path, target_file_path)
+                print(f"Successfully backed up: {relative_path} -> {new_filename}")
 
     if args.job == "job1":
         print(f"{args.job} is a great choice")
