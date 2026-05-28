@@ -29,6 +29,23 @@ logging.basicConfig(
     level=logging.INFO
 )
 
+def sendEmail(message):
+
+    email = 'To: ' + smtp["recipient"] + '\n' + 'From: ' + smtp["sender"] + '\n' + 'Subject: Backup Error\n\n' + message + '\n'
+
+    # connect to email server and send email
+    try:
+        smtp_server = smtplib.SMTP(smtp["server"], smtp["port"])
+        smtp_server.ehlo()
+        smtp_server.starttls()
+        smtp_server.ehlo()
+        smtp_server.login(smtp["user"], smtp["password"])
+        smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
+        smtp_server.close()
+    except Exception as e:
+        print("ERROR: An error occurred.")
+
+
 if __name__ == "__main__":
 	
 	# jobs go here
@@ -158,6 +175,7 @@ if __name__ == "__main__":
             job1()
             time.sleep(1)
             logging.info(f"SUCCESS: backup Successfully completed")
+            sendEmail("SUCCESS: backup Successfully completed")
         else:
             print("invalid syntax")
     elif args.job == "job2":
