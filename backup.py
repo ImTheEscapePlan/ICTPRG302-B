@@ -15,7 +15,7 @@ parser.add_argument("job", type=str, help="name of backup job to use (job1, job2
 
 args = parser.parse_args()
 
-smtp = {"sender": "cooperlehman3108@gmail.com.au",
+smtp = {"sender": "cooperlehman3108@gmail.com",
         "recipient": "cooperlehman3108@gmail.com",
         "server": "smtp.elasticemail.com",
         "port": 2525,
@@ -31,7 +31,7 @@ logging.basicConfig(
 
 def sendEmail(message):
 
-    email = 'To: ' + smtp["recipient"] + '\n' + 'From: ' + smtp["sender"] + '\n' + 'Subject: Backup Error\n\n' + message + '\n'
+    email = 'To: ' + smtp["recipient"] + '\n' + 'From: ' + smtp["sender"] + '\n' + 'Subject: Backup Successfully Completed\n\n' + message + '\n'
 
     # connect to email server and send email
     try:
