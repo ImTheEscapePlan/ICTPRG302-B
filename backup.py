@@ -3,6 +3,7 @@ import backupcfg
 import argparse
 import schedule
 import time
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -10,6 +11,13 @@ parser = argparse.ArgumentParser(description="A script to backup files")
 parser.add_argument("job", type=str, help="name of backup job to use (job1, job2, job3)")
 
 args = parser.parse_args()
+
+logging.basicConfig(
+    filename='backup.log', 
+    filemode='a', # 'a' to append (default), 'w' to overwrite
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 
 if __name__ == "__main__":
 	
@@ -21,6 +29,7 @@ if __name__ == "__main__":
 
         if not source.exists():
             print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
+            logging.error(f"FAIL: Source directory '{source}' does not exist. Check backupcfg.py")
             return
 
         # generate timestamp for this run
@@ -50,6 +59,7 @@ if __name__ == "__main__":
                 # copy files
                 shutil.copy2(file_path, target_file_path)
                 print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
     def job2():
         # Convert the strings into path objects
         source = Path(backupcfg.Job2InDir)
@@ -136,6 +146,8 @@ if __name__ == "__main__":
                 time.sleep(1)
         elif sched == "n":	
             job1()
+            time.sleep(1)
+            logging.info(f"SUCCESS: backup Successfully completed")
         else:
             print("invalid syntax")
     elif args.job == "job2":
