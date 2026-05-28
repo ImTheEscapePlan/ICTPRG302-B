@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 import shutil
 import backupcfg
 import argparse
 import schedule
 import time
 import logging
+import smtplib
 from datetime import datetime
 from pathlib import Path
 
@@ -11,6 +14,13 @@ parser = argparse.ArgumentParser(description="A script to backup files")
 parser.add_argument("job", type=str, help="name of backup job to use (job1, job2, job3)")
 
 args = parser.parse_args()
+
+smtp = {"sender": "cooperlehman3108@gmail.com.au",
+        "recipient": "cooperlehman3108@gmail.com",
+        "server": "smtp.elasticemail.com",
+        "port": 2525,
+        "user": "cooperlehman3108@gmail.com",
+        "password": "689F514F12FD181165EFA8CADA80C265B555"}
 
 logging.basicConfig(
     filename='backup.log', 
@@ -182,3 +192,4 @@ if __name__ == "__main__":
             print("invalid syntax")
     else:
         print(f"{args.job} is not a supported job, please try job1, job2 or job3")
+        logging.error(f"FAIL: {args.job} is not a supported job, please try job1, job2 or job3")
