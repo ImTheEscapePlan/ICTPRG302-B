@@ -29,7 +29,23 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-def sendEmail(message):
+def sendEmailFail(message):
+
+    email = 'To: ' + smtp["recipient"] + '\n' + 'From: ' + smtp["sender"] + '\n' + 'Subject: An Error Occured During Backup\n\n' + message + '\n'
+
+    # connect to email server and send email
+    try:
+        smtp_server = smtplib.SMTP(smtp["server"], smtp["port"])
+        smtp_server.ehlo()
+        smtp_server.starttls()
+        smtp_server.ehlo()
+        smtp_server.login(smtp["user"], smtp["password"])
+        smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
+        smtp_server.close()
+    except Exception as e:
+        print("ERROR: An error occurred.")
+
+def sendEmailSucc(message):
 
     email = 'To: ' + smtp["recipient"] + '\n' + 'From: ' + smtp["sender"] + '\n' + 'Subject: Backup Successfully Completed\n\n' + message + '\n'
 
@@ -57,7 +73,8 @@ if __name__ == "__main__":
         if not source.exists():
             print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
             logging.error(f"FAIL: Source directory '{source}' does not exist. Check backupcfg.py")
-            return
+            ErrorOcc = "e"
+            return ErrorOcc
 
         # generate timestamp for this run
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -66,27 +83,33 @@ if __name__ == "__main__":
 
         for file_path in source.rglob('*'):
             if file_path.is_file():
-                # get relative path to maintain folder structure
-                relative_path = file_path.relative_to(source)
+                try:
+                    # get relative path to maintain folder structure
+                    relative_path = file_path.relative_to(source)
 
-                # seperate filename and extension
-                file_stem = file_path.stem
-                file_suffix = file_path.suffix
+                    # seperate filename and extension
+                    file_stem = file_path.stem
+                    file_suffix = file_path.suffix
 
-                # construct new filename with timestamp
-                new_filename = f"{file_stem}_{timestamp}{file_suffix}"
+                    # construct new filename with timestamp
+                    new_filename = f"{file_stem}_{timestamp}{file_suffix}"
 
-                # determine the final destination path
-                target_subdir = dest / relative_path.parent
-                target_file_path = target_subdir / new_filename
+                    # determine the final destination path
+                    target_subdir = dest / relative_path.parent
+                    target_file_path = target_subdir / new_filename
 
-                # create destination subfolders if they don't exist yet
-                target_subdir.mkdir(parents=True, exist_ok=True)
+                    # create destination subfolders if they don't exist yet
+                    target_subdir.mkdir(parents=True, exist_ok=True)
 
-                # copy files
-                shutil.copy2(file_path, target_file_path)
-                print(f"Successfully backed up: {relative_path} -> {new_filename}")
-                logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
+                    # copy files
+                    shutil.copy2(file_path, target_file_path)
+                    print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
+                except Exception as e:
+                    print(f"FAIL: Unable to backup as an error occured") 
+                    sendEmailFail(f"FAIL: Unable to backup as an error occured")
+                    ErrorOcc = "e"
+                    return ErrorOcc
     def job2():
         # Convert the strings into path objects
         source = Path(backupcfg.Job2InDir)
@@ -172,10 +195,13 @@ if __name__ == "__main__":
                 schedule.run_pending()
                 time.sleep(1)
         elif sched == "n":	
-            job1()
-            time.sleep(1)
-            logging.info(f"SUCCESS: backup Successfully completed")
-            sendEmail("SUCCESS: backup Successfully completed")
+            jobOut = job1()
+            if jobOut == "e":
+                sendEmailFail(f"FAIL: an error occured during backup")
+            else:
+                time.sleep(1)
+                logging.info(f"SUCCESS: backup Successfully completed")
+                sendEmailSucc("SUCCESS: backup Successfully completed")
         else:
             print("invalid syntax")
     elif args.job == "job2":

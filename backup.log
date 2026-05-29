@@ -815,3 +815,8 @@
 2026-05-28 14:57:21,914 - INFO - SUCCESS: backed up: SensibleDots/.config/noctalia/plugins/arch-updater/i18n/fr.json -> fr_20260528_145721.json
 2026-05-28 14:57:21,914 - INFO - SUCCESS: backed up: SensibleDots/.config/noctalia/plugins/arch-updater/i18n/de.json -> de_20260528_145721.json
 2026-05-28 14:57:22,915 - INFO - SUCCESS: backup Successfully completed
+2026-05-29 10:03:13,653 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
+2026-05-29 10:03:14,654 - INFO - SUCCESS: backup Successfully completed
+2026-05-29 10:04:59,171 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
+2026-05-29 10:05:00,172 - INFO - SUCCESS: backup Successfully completed
+2026-05-29 10:07:44,842 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
