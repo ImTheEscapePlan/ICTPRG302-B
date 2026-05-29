@@ -820,3 +820,7 @@
 2026-05-29 10:04:59,171 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
 2026-05-29 10:05:00,172 - INFO - SUCCESS: backup Successfully completed
 2026-05-29 10:07:44,842 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
+2026-05-29 11:45:41,654 - INFO - SUCCESS: backup Successfully completed
+2026-05-29 11:46:51,006 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
+2026-05-29 11:56:19,661 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
+2026-05-29 12:00:00,217 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py

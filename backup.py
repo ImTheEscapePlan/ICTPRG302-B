@@ -61,6 +61,23 @@ def sendEmailSucc(message):
     except Exception as e:
         print("ERROR: An error occurred.")
 
+def jobRun(job):
+    jobOut = job
+    if jobOut == "e":
+        sendEmailFail(f"FAIL: an error occured during backup")
+    else:
+        time.sleep(1)
+        logging.info(f"SUCCESS: backup Successfully completed")
+        sendEmailSucc("SUCCESS: backup Successfully completed")
+
+def jobRun1():
+    jobRun(job1())
+
+def jobRun2():
+    jobRun(job2())
+
+def jobRun3():
+    jobRun(job3())
 
 if __name__ == "__main__":
 	
@@ -110,6 +127,7 @@ if __name__ == "__main__":
                     sendEmailFail(f"FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
+
     def job2():
         # Convert the strings into path objects
         source = Path(backupcfg.Job2InDir)
@@ -117,7 +135,8 @@ if __name__ == "__main__":
 
         if not source.exists():
             print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
-            return
+            ErrorOcc = "e"
+            return ErrorOcc
 
         # generate timestamp for this run
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -126,26 +145,34 @@ if __name__ == "__main__":
 
         for file_path in source.rglob('*'):
             if file_path.is_file():
-                # get relative path to maintain folder structure
-                relative_path = file_path.relative_to(source)
+                try:
+                    # get relative path to maintain folder structure
+                    relative_path = file_path.relative_to(source)
 
-                # seperate filename and extension
-                file_stem = file_path.stem
-                file_suffix = file_path.suffix
+                    # seperate filename and extension
+                    file_stem = file_path.stem
+                    file_suffix = file_path.suffix
 
-                # construct new filename with timestamp
-                new_filename = f"{file_stem}_{timestamp}{file_suffix}"
+                    # construct new filename with timestamp
+                    new_filename = f"{file_stem}_{timestamp}{file_suffix}"
 
-                # determine the final destination path
-                target_subdir = dest / relative_path.parent
-                target_file_path = target_subdir / new_filename
+                    # determine the final destination path
+                    target_subdir = dest / relative_path.parent
+                    target_file_path = target_subdir / new_filename
 
-                # create destination subfolders if they don't exist yet
-                target_subdir.mkdir(parents=True, exist_ok=True)
+                    # create destination subfolders if they don't exist yet
+                    target_subdir.mkdir(parents=True, exist_ok=True)
 
-                # copy files
-                shutil.copy2(file_path, target_file_path)
-                print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    # copy files
+                    shutil.copy2(file_path, target_file_path)
+                    print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
+                except:
+                    print(f"FAIL: Unable to backup as an error occured") 
+                    sendEmailFail(f"FAIL: Unable to backup as an error occured")
+                    ErrorOcc = "e"
+                    return ErrorOcc
+    
     def job3():
         # Convert the strings into path objects
         source = Path(backupcfg.Job3InDir)
@@ -153,7 +180,8 @@ if __name__ == "__main__":
 
         if not source.exists():
             print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
-            return
+            ErrorOcc = "e"
+            return ErrorOcc
 
         # generate timestamp for this run
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -162,26 +190,33 @@ if __name__ == "__main__":
 
         for file_path in source.rglob('*'):
             if file_path.is_file():
-                # get relative path to maintain folder structure
-                relative_path = file_path.relative_to(source)
+                try:
+                    # get relative path to maintain folder structure
+                    relative_path = file_path.relative_to(source)
 
-                # seperate filename and extension
-                file_stem = file_path.stem
-                file_suffix = file_path.suffix
+                    # seperate filename and extension
+                    file_stem = file_path.stem
+                    file_suffix = file_path.suffix
 
-                # construct new filename with timestamp
-                new_filename = f"{file_stem}_{timestamp}{file_suffix}"
+                    # construct new filename with timestamp
+                    new_filename = f"{file_stem}_{timestamp}{file_suffix}"
 
-                # determine the final destination path
-                target_subdir = dest / relative_path.parent
-                target_file_path = target_subdir / new_filename
+                    # determine the final destination path
+                    target_subdir = dest / relative_path.parent
+                    target_file_path = target_subdir / new_filename
 
-                # create destination subfolders if they don't exist yet
-                target_subdir.mkdir(parents=True, exist_ok=True)
+                    # create destination subfolders if they don't exist yet
+                    target_subdir.mkdir(parents=True, exist_ok=True)
 
-                # copy files
-                shutil.copy2(file_path, target_file_path)
-                print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    # copy files
+                    shutil.copy2(file_path, target_file_path)
+                    print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
+                except:
+                    print(f"FAIL: Unable to backup as an error occured") 
+                    sendEmailFail(f"FAIL: Unable to backup as an error occured")
+                    ErrorOcc = "e"
+                    return ErrorOcc
 
     if args.job == "job1":
         print(f"{args.job} is a great choice")
@@ -190,18 +225,12 @@ if __name__ == "__main__":
 		
         if sched == "y":
             print(f"scheduled time is {backupcfg.SchedTime}, if this is not correct, please edit backupcfg before running")
-            schedule.every().day.at(backupcfg.SchedTime).do(job1)
+            schedule.every().day.at(backupcfg.SchedTime).do(jobRun1)
             while True:
                 schedule.run_pending()
                 time.sleep(1)
         elif sched == "n":	
-            jobOut = job1()
-            if jobOut == "e":
-                sendEmailFail(f"FAIL: an error occured during backup")
-            else:
-                time.sleep(1)
-                logging.info(f"SUCCESS: backup Successfully completed")
-                sendEmailSucc("SUCCESS: backup Successfully completed")
+            jobRun(job1())
         else:
             print("invalid syntax")
     elif args.job == "job2":
@@ -211,12 +240,12 @@ if __name__ == "__main__":
 		
         if sched == "y":
             print(f"scheduled time is {backupcfg.SchedTime}, if this is not correct, please edit backupcfg")
-            schedule.every().day.at(backupcfg.SchedTime).do(job2)
+            schedule.every().day.at(backupcfg.SchedTime).do(jobRun2)
             while True:
                 schedule.run_pending()
                 time.sleep(1)
         elif sched == "n":	
-            job2()
+            jobRun(job3())
         else:
             print("invalid syntax")
     elif args.job == "job3":
@@ -226,12 +255,12 @@ if __name__ == "__main__":
 		
         if sched == "y":
             print(f"scheduled time is {backupcfg.SchedTime}, if this is not correct, please edit backupcfg")
-            schedule.every().day.at(backupcfg.SchedTime).do(job3)
+            schedule.every().day.at(backupcfg.SchedTime).do(jobRun3)
             while True:
                 schedule.run_pending()
                 time.sleep(1)
         elif sched == "n":	
-            job3()
+            jobRun(job3())
         else:
             print("invalid syntax")
     else:
