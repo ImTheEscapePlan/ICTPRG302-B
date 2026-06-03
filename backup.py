@@ -42,6 +42,8 @@ def sendEmailFail(message):
         smtp_server.login(smtp["user"], smtp["password"])
         smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
         smtp_server.close()
+        print("SUCCESS: 'Error' email sent")
+        logging.error("SUCCESS: 'Error' email sent")
     except Exception as e:
         print("ERROR: An error occured during 'Fail' message sending.")
 
@@ -59,6 +61,7 @@ def sendEmailSucc(message):
         smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
         smtp_server.close()
         print("SUCCESS: 'Success' email sent")
+        logging.error("SUCCESS: 'Success' email sent")
     except Exception as e:
         print("ERROR: An error occurred during 'Success' message sending.")
 
