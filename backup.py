@@ -43,7 +43,7 @@ def sendEmailFail(message):
         smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
         smtp_server.close()
     except Exception as e:
-        print("ERROR: An error occurred.")
+        print("ERROR: An error occured during 'Fail' message sending.")
 
 def sendEmailSucc(message):
 
@@ -59,7 +59,7 @@ def sendEmailSucc(message):
         smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
         smtp_server.close()
     except Exception as e:
-        print("ERROR: An error occurred.")
+        print("ERROR: An error occurred during 'Success' message sending.")
 
 def jobRun(job):
     jobOut = job
@@ -124,7 +124,7 @@ if __name__ == "__main__":
                     logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
                 except Exception as e:
                     print(f"FAIL: Unable to backup as an error occured") 
-                    sendEmailFail(f"FAIL: Unable to backup as an error occured")
+                    sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
 
@@ -169,7 +169,7 @@ if __name__ == "__main__":
                     logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
                 except:
                     print(f"FAIL: Unable to backup as an error occured") 
-                    sendEmailFail(f"FAIL: Unable to backup as an error occured")
+                    sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
     
@@ -214,7 +214,7 @@ if __name__ == "__main__":
                     logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
                 except:
                     print(f"FAIL: Unable to backup as an error occured") 
-                    sendEmailFail(f"FAIL: Unable to backup as an error occured")
+                    sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
 
