@@ -58,6 +58,7 @@ def sendEmailSucc(message):
         smtp_server.login(smtp["user"], smtp["password"])
         smtp_server.sendmail(smtp["sender"], smtp["recipient"], email)
         smtp_server.close()
+        print("SUCCESS: 'Success' email sent")
     except Exception as e:
         print("ERROR: An error occurred during 'Success' message sending.")
 
@@ -67,8 +68,9 @@ def jobRun(job):
         sendEmailFail(f"FAIL: an error occured during backup")
     else:
         time.sleep(1)
-        logging.info(f"SUCCESS: backup Successfully completed")
-        sendEmailSucc("SUCCESS: backup Successfully completed")
+        print("SUCCESS: backup successfully completed.")
+        logging.info("SUCCESS: backup Successfully completed.")
+        sendEmailSucc("SUCCESS: backup Successfully completed.")
 
 def jobRun1():
     jobRun(job1())
