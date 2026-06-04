@@ -4420,3 +4420,5 @@
 2026-06-04 13:25:40,146 - INFO - SUCCESS: backed up: ICTPRG302-A2/ICTPRG302-A2.docx -> ICTPRG302-A2_20260604_132540/ICTPRG302-A2_20260604_132540.docx
 2026-06-04 13:25:41,146 - INFO - SUCCESS: backup Successfully completed.
 2026-06-04 13:25:49,332 - ERROR - SUCCESS: 'Success' email sent
+2026-06-04 14:05:06,564 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
+2026-06-04 14:05:14,090 - ERROR - SUCCESS: 'Error' email sent
