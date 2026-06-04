@@ -109,20 +109,15 @@ if __name__ == "__main__":
                     # get relative path to maintain folder structure
                     relative_path = file_path.relative_to(source)
 
-                    # separate filename and extension
+                    # seperate filename and extension
                     file_stem = file_path.stem
                     file_suffix = file_path.suffix
 
                     # construct new filename with timestamp
                     new_filename = f"{file_stem}_{timestamp}{file_suffix}"
 
-                    # append the timestamp to every directory in the relative path
-                    # e.g., 'folder1/folder2' becomes 'folder1_2026.../folder2_2026...'
-                    new_parts = [f"{part}_{timestamp}" for part in relative_path.parent.parts]
-                    new_relative_parent = Path(*new_parts)
-
                     # determine the final destination path
-                    target_subdir = dest / new_relative_parent
+                    target_subdir = dest / relative_path.parent
                     target_file_path = target_subdir / new_filename
 
                     # create destination subfolders if they don't exist yet
@@ -130,16 +125,14 @@ if __name__ == "__main__":
 
                     # copy files
                     shutil.copy2(file_path, target_file_path)
-                    
-                    # Log the full new relative path so you can see the directory changes
-                    print(f"Successfully backed up: {relative_path} -> {new_relative_parent / new_filename}")
-                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_relative_parent / new_filename}")
+                    print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
                 except Exception as e:
                     print(f"FAIL: Unable to backup as an error occured") 
                     sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
-    
+
     def job2():
         # Convert the strings into path objects
         source = Path(backupcfg.Job2InDir)
@@ -147,7 +140,6 @@ if __name__ == "__main__":
 
         if not source.exists():
             print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
-            logging.error(f"FAIL: Source directory '{source}' does not exist. Check backupcfg.py")
             ErrorOcc = "e"
             return ErrorOcc
 
@@ -162,20 +154,15 @@ if __name__ == "__main__":
                     # get relative path to maintain folder structure
                     relative_path = file_path.relative_to(source)
 
-                    # separate filename and extension
+                    # seperate filename and extension
                     file_stem = file_path.stem
                     file_suffix = file_path.suffix
 
                     # construct new filename with timestamp
                     new_filename = f"{file_stem}_{timestamp}{file_suffix}"
 
-                    # append the timestamp to every directory in the relative path
-                    # e.g., 'folder1/folder2' becomes 'folder1_2026.../folder2_2026...'
-                    new_parts = [f"{part}_{timestamp}" for part in relative_path.parent.parts]
-                    new_relative_parent = Path(*new_parts)
-
                     # determine the final destination path
-                    target_subdir = dest / new_relative_parent
+                    target_subdir = dest / relative_path.parent
                     target_file_path = target_subdir / new_filename
 
                     # create destination subfolders if they don't exist yet
@@ -183,11 +170,9 @@ if __name__ == "__main__":
 
                     # copy files
                     shutil.copy2(file_path, target_file_path)
-                    
-                    # Log the full new relative path so you can see the directory changes
-                    print(f"Successfully backed up: {relative_path} -> {new_relative_parent / new_filename}")
-                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_relative_parent / new_filename}")
-                except Exception as e:
+                    print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
+                except:
                     print(f"FAIL: Unable to backup as an error occured") 
                     sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
@@ -200,7 +185,6 @@ if __name__ == "__main__":
 
         if not source.exists():
             print(f"Error: Source directory '{source}' does not exist. Check backupcfg.py")
-            logging.error(f"FAIL: Source directory '{source}' does not exist. Check backupcfg.py")
             ErrorOcc = "e"
             return ErrorOcc
 
@@ -215,20 +199,15 @@ if __name__ == "__main__":
                     # get relative path to maintain folder structure
                     relative_path = file_path.relative_to(source)
 
-                    # separate filename and extension
+                    # seperate filename and extension
                     file_stem = file_path.stem
                     file_suffix = file_path.suffix
 
                     # construct new filename with timestamp
                     new_filename = f"{file_stem}_{timestamp}{file_suffix}"
 
-                    # append the timestamp to every directory in the relative path
-                    # e.g., 'folder1/folder2' becomes 'folder1_2026.../folder2_2026...'
-                    new_parts = [f"{part}_{timestamp}" for part in relative_path.parent.parts]
-                    new_relative_parent = Path(*new_parts)
-
                     # determine the final destination path
-                    target_subdir = dest / new_relative_parent
+                    target_subdir = dest / relative_path.parent
                     target_file_path = target_subdir / new_filename
 
                     # create destination subfolders if they don't exist yet
@@ -236,16 +215,14 @@ if __name__ == "__main__":
 
                     # copy files
                     shutil.copy2(file_path, target_file_path)
-                    
-                    # Log the full new relative path so you can see the directory changes
-                    print(f"Successfully backed up: {relative_path} -> {new_relative_parent / new_filename}")
-                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_relative_parent / new_filename}")
-                except Exception as e:
+                    print(f"Successfully backed up: {relative_path} -> {new_filename}")
+                    logging.info(f"SUCCESS: backed up: {relative_path} -> {new_filename}")
+                except:
                     print(f"FAIL: Unable to backup as an error occured") 
                     sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
-    
+
     if args.job == "job1":
         print(f"{args.job} is a great choice")
 		
@@ -273,7 +250,7 @@ if __name__ == "__main__":
                 schedule.run_pending()
                 time.sleep(1)
         elif sched == "n":	
-            jobRun(job2())
+            jobRun(job3())
         else:
             print("invalid syntax")
     elif args.job == "job3":
