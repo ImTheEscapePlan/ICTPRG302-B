@@ -95,7 +95,7 @@ def sendEmailSucc(message):
 def jobRun(job):
     jobOut = job
     if jobOut == "e":
-        sendEmailFail(f"FAIL: an error occured during backup")
+        sendEmailFail("FAIL: an error occured during backup")
     else:
         time.sleep(1)
         print("SUCCESS: backup successfully completed.")
@@ -175,7 +175,7 @@ if __name__ == "__main__":
                         f"SUCCESS: backed up: {relative_path} -> {new_relative_parent / new_filename}"
                     )
                 except Exception as e:
-                    print(f"FAIL: Unable to backup as an error occured")
+                    print("FAIL: Unable to backup as an error occured")
                     sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
@@ -238,7 +238,7 @@ if __name__ == "__main__":
                         f"SUCCESS: backed up: {relative_path} -> {new_relative_parent / new_filename}"
                     )
                 except Exception as e:
-                    print(f"FAIL: Unable to backup as an error occured")
+                    print("FAIL: Unable to backup as an error occured")
                     sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
@@ -301,7 +301,7 @@ if __name__ == "__main__":
                         f"SUCCESS: backed up: {relative_path} -> {new_relative_parent / new_filename}"
                     )
                 except Exception as e:
-                    print(f"FAIL: Unable to backup as an error occured")
+                    print("FAIL: Unable to backup as an error occured")
                     sendEmailFail("FAIL: Unable to backup as an error occured")
                     ErrorOcc = "e"
                     return ErrorOcc
