@@ -4426,3 +4426,5 @@
 2026-06-04 14:36:49,838 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
 2026-06-04 14:39:29,703 - ERROR - FAIL: Source directory '/home/ctrlescape/Projects/ICTPRG302-B/job1input' does not exist. Check backupcfg.py
 2026-06-04 14:39:35,284 - ERROR - SUCCESS: 'Error' email sent
+2026-06-11 13:09:01,562 - ERROR - FAIL: destination directory '/home/ctrlescape/Projects/ICTPRG302-B/job1output' cannot be within source directory '/home/ctrlescape/Projects/ICTPRG302-B'. Check backupcfg.py
+2026-06-11 13:09:07,581 - ERROR - SUCCESS: 'Error' email sent
