@@ -132,6 +132,16 @@ if __name__ == "__main__":
             ErrorOcc = "e"
             return ErrorOcc
 
+        if dest.is_relative_to(source):
+            print(
+                f"Error: destination directory '{dest}' cannot be within source directory '{source}'. Check backupcfg.py"
+            )
+            logging.error(
+                f"FAIL: destination directory '{dest}' cannot be within source directory '{source}'. Check backupcfg.py"
+            )
+            ErrorOcc = "e"
+            return ErrorOcc
+
         # generate timestamp for this run
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -195,6 +205,16 @@ if __name__ == "__main__":
             ErrorOcc = "e"
             return ErrorOcc
 
+        if dest.is_relative_to(source):
+            print(
+                f"Error: destination directory '{dest}' cannot be within source directory '{source}'. Check backupcfg.py"
+            )
+            logging.error(
+                f"FAIL: destination directory '{dest}' cannot be within source directory '{source}'. Check backupcfg.py"
+            )
+            ErrorOcc = "e"
+            return ErrorOcc
+
         # generate timestamp for this run
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -254,6 +274,16 @@ if __name__ == "__main__":
             )
             logging.error(
                 f"FAIL: Source directory '{source}' does not exist. Check backupcfg.py"
+            )
+            ErrorOcc = "e"
+            return ErrorOcc
+
+        if dest.is_relative_to(source):
+            print(
+                f"Error: destination directory '{dest}' cannot be within source directory '{source}'. Check backupcfg.py"
+            )
+            logging.error(
+                f"FAIL: destination directory '{dest}' cannot be within source directory '{source}'. Check backupcfg.py"
             )
             ErrorOcc = "e"
             return ErrorOcc
